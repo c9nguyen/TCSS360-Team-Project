@@ -36,7 +36,7 @@ public class Submission {
 	// Constructs a submission with name, category and image.
 	public Submission(int theID, String theName, String theCategory, File theImage) {
 		myID = theID;
-		myName = theName;
+		myName = theName.replaceAll("\\s+","");
 		myCategory = theCategory;
 		myImage = theImage;
 		myAge = RAND.nextInt(AGE_RANGE) + AGE_BUFFER; 
@@ -90,6 +90,15 @@ public class Submission {
 	// Gets the age of user.
 	public int getAge() {
 		return myAge;
+	}
+	
+	public boolean equals(Submission other) {
+		return toString().equals(other.toString());
+	}
+	
+	public String toString() {
+		return myID + " " + myName + " " + myCategory +
+				" " + myAge + " " + myImage.getName();
 	}
 	
 }

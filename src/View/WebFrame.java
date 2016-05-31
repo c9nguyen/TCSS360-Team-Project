@@ -20,6 +20,7 @@ import javax.swing.border.EmptyBorder;
  */
 public class WebFrame extends JFrame {
 
+	/* Setting up size of frame */
 	public static final Dimension SIZE = Toolkit.getDefaultToolkit().getScreenSize();
 	
 	public static final double RATIO = 0.8;
@@ -27,11 +28,16 @@ public class WebFrame extends JFrame {
 	public static final int DEFAULT_WIDTH = (int) (SIZE.getWidth() * RATIO);
 	
 	public static final int DEFAULT_HEIGHT = (int) (SIZE.getHeight() * RATIO);
-	
+		
 	private JPanel contentPane;
 	
 	private JPanel myMainPanel;
 	
+	/* Next Panel */
+	private JPanel nextPanel;
+	
+	/* Previous Panel */
+	private JPanel previousPanel;
 
 	/**
 	 * Launch the application.

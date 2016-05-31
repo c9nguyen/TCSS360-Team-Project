@@ -29,14 +29,14 @@ public class MainPane extends JPanel {
 		setupSouthPane();
 	}
 	
-	public void setupHeader() {
+	private void setupHeader() {
 		JLabel headerLbl = new JLabel("Name of the event");
 		headerLbl.setFont(new Font("Verdana", Font.PLAIN, 23));
 		headerLbl.setHorizontalAlignment(SwingConstants.CENTER);
 		add(headerLbl, BorderLayout.NORTH);
 	}
 	
-	public void setupDescription() {
+	private void setupDescription() {
 		JPanel centerPanel = new JPanel();
 		add(centerPanel, BorderLayout.CENTER);
 		centerPanel.setLayout(new BorderLayout(0, 0));

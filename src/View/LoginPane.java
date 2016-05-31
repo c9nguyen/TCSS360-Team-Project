@@ -9,6 +9,13 @@ import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
 import javax.swing.JButton;
 import java.awt.Font;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import java.awt.Color;
+import java.awt.Dimension;
+import javax.swing.BoxLayout;
+import java.awt.FlowLayout;
+import javax.swing.LayoutStyle.ComponentPlacement;
 
 public class LoginPane extends JPanel {
 
@@ -69,55 +76,86 @@ public class LoginPane extends JPanel {
 	private void setupLogin() {
 		JPanel centerPane = new JPanel();
 		add(centerPane, BorderLayout.CENTER);
-		SpringLayout sl_centerPane = new SpringLayout();
-		centerPane.setLayout(sl_centerPane);
 	
 		JPanel idPane = new JPanel();
-		sl_centerPane.putConstraint(SpringLayout.NORTH, idPane, 10, SpringLayout.NORTH, centerPane);
-		sl_centerPane.putConstraint(SpringLayout.WEST, idPane, 107, SpringLayout.WEST, centerPane);
-		sl_centerPane.putConstraint(SpringLayout.SOUTH, idPane, -46, SpringLayout.SOUTH, centerPane);
-		sl_centerPane.putConstraint(SpringLayout.EAST, idPane, -107, SpringLayout.EAST, centerPane);
-		SpringLayout sl_idPane = new SpringLayout();
-		idPane.setLayout(sl_idPane);
+		idPane.setBackground(Color.DARK_GRAY);
+		idPane.setPreferredSize(new Dimension(400, 300));
+		idPane.setMinimumSize(new Dimension(400, 300));
+		idPane.setMinimumSize(new Dimension(400, 300));
+
 		
 		JLabel lblNewLabel = new JLabel("ID:");
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		idPane.add(lblNewLabel);
+		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		
 		idTxtField = new JTextField();
-		sl_idPane.putConstraint(SpringLayout.SOUTH, lblNewLabel, 0, SpringLayout.SOUTH, idTxtField);
-		sl_idPane.putConstraint(SpringLayout.WEST, idTxtField, 87, SpringLayout.WEST, idPane);
-		sl_idPane.putConstraint(SpringLayout.EAST, idTxtField, -24, SpringLayout.EAST, idPane);
-		sl_idPane.putConstraint(SpringLayout.EAST, lblNewLabel, -6, SpringLayout.WEST, idTxtField);
-		sl_idPane.putConstraint(SpringLayout.NORTH, idTxtField, 15, SpringLayout.NORTH, idPane);
-		idPane.add(idTxtField);
 		idTxtField.setColumns(10);
-		centerPane.add(idPane);
 		
 		JLabel lblPassword = new JLabel("Password:");
-		lblPassword.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		sl_idPane.putConstraint(SpringLayout.EAST, lblPassword, -155, SpringLayout.EAST, idPane);
-		idPane.add(lblPassword);
+		lblPassword.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		
 		passTxtField = new JTextField();
-		sl_idPane.putConstraint(SpringLayout.SOUTH, lblPassword, 0, SpringLayout.SOUTH, passTxtField);
-		sl_idPane.putConstraint(SpringLayout.NORTH, passTxtField, 15, SpringLayout.SOUTH, idTxtField);
-		sl_idPane.putConstraint(SpringLayout.WEST, passTxtField, 87, SpringLayout.WEST, idPane);
-		sl_idPane.putConstraint(SpringLayout.EAST, passTxtField, -24, SpringLayout.EAST, idPane);
-		idPane.add(passTxtField);
 		passTxtField.setColumns(10);
 		
 		JButton loginBtn = new JButton("Login");
 		loginBtn.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		sl_idPane.putConstraint(SpringLayout.NORTH, loginBtn, 15, SpringLayout.SOUTH, lblPassword);
-		sl_idPane.putConstraint(SpringLayout.WEST, loginBtn, 73, SpringLayout.WEST, idPane);
-		sl_idPane.putConstraint(SpringLayout.EAST, loginBtn, -74, SpringLayout.EAST, idPane);
-		idPane.add(loginBtn);
 		
 		reportLabel = new JLabel("");
-		sl_idPane.putConstraint(SpringLayout.WEST, reportLabel, 118, SpringLayout.WEST, idPane);
-		sl_idPane.putConstraint(SpringLayout.SOUTH, reportLabel, -10, SpringLayout.SOUTH, idPane);
-		idPane.add(reportLabel);
+		centerPane.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		GroupLayout gl_idPane = new GroupLayout(idPane);
+		gl_idPane.setHorizontalGroup(
+			gl_idPane.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_idPane.createSequentialGroup()
+					.addGap(16)
+					.addGroup(gl_idPane.createParallelGroup(Alignment.TRAILING)
+						.addComponent(lblPassword)
+						.addComponent(lblNewLabel))
+					.addGap(30)
+					.addGroup(gl_idPane.createParallelGroup(Alignment.LEADING)
+						.addComponent(idTxtField, GroupLayout.DEFAULT_SIZE, 248, Short.MAX_VALUE)
+						.addComponent(passTxtField, GroupLayout.DEFAULT_SIZE, 248, Short.MAX_VALUE))
+					.addGap(15))
+				.addGroup(gl_idPane.createSequentialGroup()
+					.addGap(156)
+					.addComponent(loginBtn, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(155, Short.MAX_VALUE))
+		);
+		gl_idPane.setVerticalGroup(
+			gl_idPane.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_idPane.createSequentialGroup()
+					.addGap(92)
+					.addGroup(gl_idPane.createParallelGroup(Alignment.TRAILING, false)
+						.addComponent(idTxtField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblNewLabel))
+					.addGap(16)
+					.addGroup(gl_idPane.createParallelGroup(Alignment.TRAILING, false)
+						.addComponent(passTxtField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblPassword))
+					.addGap(26)
+					.addComponent(loginBtn)
+					.addContainerGap(91, Short.MAX_VALUE))
+		);
+		idPane.setLayout(gl_idPane);
+		centerPane.add(idPane);
+
+		
+		JPanel panel = new JPanel();
+		add(panel, BorderLayout.SOUTH);
+//		panel.setPreferredSize(idPane.getPreferredSize());
+//		panel.setMinimumSize(idPane.getMinimumSize());
+//		panel.setMinimumSize(idPane.getMaximumSize());
+		
+		JPanel panel_1 = new JPanel();
+		add(panel_1, BorderLayout.WEST);
+//		panel_1.setPreferredSize(idPane.getPreferredSize());
+//		panel_1.setMinimumSize(idPane.getMinimumSize());
+//		panel_1.setMinimumSize(idPane.getMaximumSize());
+		
+		JPanel panel_2 = new JPanel();
+		add(panel_2, BorderLayout.EAST);
+//		panel_2.setPreferredSize(idPane.getPreferredSize());
+//		panel_2.setMinimumSize(idPane.getMinimumSize());
+//		panel_2.setMinimumSize(idPane.getMaximumSize());
+		
 	}
 	
 	/**

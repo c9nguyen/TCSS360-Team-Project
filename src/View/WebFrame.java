@@ -23,7 +23,7 @@ public class WebFrame extends JFrame {
 	/* Setting up size of frame */
 	public static final Dimension SIZE = Toolkit.getDefaultToolkit().getScreenSize();
 	
-	public static final double RATIO = 0.8;
+	public static final double RATIO = 0.7;
 	
 	public static final int DEFAULT_WIDTH = (int) (SIZE.getWidth() * RATIO);
 	
@@ -60,6 +60,9 @@ public class WebFrame extends JFrame {
 	 */
 	public WebFrame() {
 		setUpFrame();
+		
+		UserPane myPane = new UserPane();
+		setContentPane(myPane);
 	}
 	
 	private void setUpFrame() {

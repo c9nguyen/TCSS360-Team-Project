@@ -17,18 +17,16 @@ import javax.swing.SwingConstants;
 import java.awt.Font;
 import javax.swing.JButton;
 
-public class Testing extends JPanel {
+public class MainPane extends JPanel {
 
 	/**
 	 * Create the panel.
 	 */
-	public Testing() {
+	public MainPane() {
 		setLayout(new BorderLayout(0, 0));
 		setupHeader();
 		setupDescription();
 		setupSouthPane();
-
-
 	}
 	
 	public void setupHeader() {

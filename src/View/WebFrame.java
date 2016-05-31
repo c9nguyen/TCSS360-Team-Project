@@ -60,8 +60,6 @@ public class WebFrame extends JFrame {
 	 */
 	public WebFrame() {
 		setUpFrame();
-		
-		myMainPanel = new MainPage();
 	}
 	
 	private void setUpFrame() {

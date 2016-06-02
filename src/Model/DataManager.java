@@ -8,8 +8,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
@@ -23,11 +21,14 @@ import java.util.Scanner;
  */
 public class DataManager {
 
+	private int myID;
+	
+	
 	/**
 	 * Constructs an object to manipulate submissions in database.
 	 */
- 	public DataManager() {
-
+ 	public DataManager(int theID) {
+ 		this.myID = theID;
  	}
  	
 	/**
@@ -37,7 +38,7 @@ public class DataManager {
 	 */
 	public void addSubmission(Submission theSubmission) throws IOException {
 		int ID = theSubmission.getID();
-		if (this.containsSubmission(ID +"")) return;
+		if (this.containsSubmission()) return;
 		String name = theSubmission.getName();
 		String category = theSubmission.getCategory();
 		int age = theSubmission.getAge();
@@ -56,13 +57,13 @@ public class DataManager {
 	 * @param theID The submission ID 
 	 * @throws IOException
 	 */
- 	public void removeSubmission(int theID) throws IOException {
+ 	public void removeSubmission() throws IOException {
  		File inputFile = new File("submissions.txt");
  		File tempFile = new File("myTempFile.txt");
  		BufferedReader reader = new BufferedReader(new FileReader(inputFile));
  		BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile));
  		
- 		String ID = theID + "";
+ 		String ID = myID + "";
  		String currentLine;
  		
  		while ((currentLine = reader.readLine()) != null) {
@@ -88,22 +89,30 @@ public class DataManager {
  		writer.close();
  	}
  	
- 	public boolean containsSubmission(String theID) throws FileNotFoundException {
+ 	/**
+ 	 * Checks to see if the stored ID has a submission associated with it.
+ 	 * @param theID
+ 	 * @return
+ 	 * @throws FileNotFoundException
+ 	 */
+ 	public boolean containsSubmission() throws FileNotFoundException {
  		Scanner sc = new Scanner(new File("submissions.txt"));
  		while (sc.hasNextLine()) {
  			String line = sc.nextLine();
  			String[] parts = line.split(" ");
  			String currentID = parts[0];
- 			if (theID.equals(currentID)) {
+ 			if ((myID + "").equals(currentID)) {
  				return true;
  			}
  		}
+ 		sc.close();
  		return false;
  	}
  	
+ 	
  	/**
- 	 * Returns all submissions stored in the database
- 	 * @return Submission ArrayList of all submissions.
+ 	 * Returns all submissions stored in the database.
+ 	 * @return List of all submissions.
  	 * @throws FileNotFoundException 
  	 */
  	public List<Submission> getSubmissions() throws FileNotFoundException {
@@ -127,6 +136,9 @@ public class DataManager {
  		return list;
  	}
  	
+ 	/**
+ 	 * Prints the submissions in the DataBase.
+ 	 */
  	public void printDataBase() {
  		List<Submission> list = null;
  		try {
@@ -139,4 +151,75 @@ public class DataManager {
  			System.out.println(list.get(i).toString());
  		}
  	}
+ 	
+ 	/**
+ 	 * Sets a new ID to be stored.
+ 	 * @param ID ID will be stored in DataManager.
+ 	 */
+ 	public void setID(int ID) {
+ 		this.myID = ID;
+ 	}
+ 	
+ 	/**
+ 	 * Returns the stored ID.
+ 	 * @return Returns the stored ID.
+ 	 */
+ 	public int getID() {
+ 		return myID;
+ 	}
+ 	
+ 	/**
+ 	 * Takes the new submission and replaces the old submission for 
+ 	 * the user with the new submission. Will not work unless the ID
+ 	 * on the new submission matches the stored ID.
+ 	 * @param theSub
+ 	 * @throws IOException
+ 	 */
+ 	public void resubmit(Submission theSub) throws IOException {
+ 		this.removeSubmission();
+ 		this.addSubmission(theSub);
+ 	}
+ 	
+ 	/**
+ 	 * Returns the submission associated with the stored ID.
+ 	 * If no submission has been added for the given ID than
+ 	 * a null submission will be returned.
+ 	 * @return Returns a submission for the stored ID.
+ 	 */
+ 	public Submission getSubmission() {
+ 		List<Submission> list = new ArrayList<Submission>();
+ 		Submission sub = null;
+ 		for (int i = 0; i < list.size(); i++) {
+ 			if (list.get(i).getID() == myID) {
+ 				return list.get(i);
+ 			}
+ 		}
+ 		return sub;
+ 	}
+ 	
+ 	// isUser : boolean
+ 	public boolean isUser(String password) {
+ 		return contains("users.txt", password);
+ 	}
+ 	
+ 	// isAdmin : boolean
+ 	public boolean isAdmin(String password) {
+ 		return contains("admins.txt", password);
+ 	}
+ 	
+ 	private boolean contains(String fileName, String password) {
+ 		Scanner input = new Scanner(fileName);
+ 		boolean contains = false;
+ 		while (input.hasNextLine()) {
+ 			String line = input.nextLine();
+ 			String[] parts = line.split(" ");
+ 			if (parts[0].equals(myID + "") && parts[1].equals(password)) {
+ 				contains = true;
+ 			}
+ 		}
+ 		input.close();
+ 		return contains;
+ 	}
+ 	
+ 	// 4 sorted lists 	
 }

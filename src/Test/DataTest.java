@@ -20,7 +20,7 @@ public class DataTest extends TestCase {
 	 */
 	@Before
 	public void setUp() {
-		dm = new DataManager();
+		dm = new DataManager(12345);
 	}
 	
 	/**
@@ -28,12 +28,14 @@ public class DataTest extends TestCase {
 	 * @throws IOException 
 	 */
 	public void testAddSubmission() throws IOException {
-		dm.addSubmission(new Submission(6535669, "BlackDesk", "Desk", new File("blackdesk.jpg")));
-		dm.addSubmission(new Submission(8, "BlackDesk", "Desk", new File("blackdesk.jpg")));
-		dm.addSubmission(new Submission(233243, "anotherDesk", "Desk", new File("decksss.jpg")));
+		//dm.addSubmission(new Submission(6535669, "BlackDesk", "Desk", new File("blackdesk.jpg")));
+		//dm.addSubmission(new Submission(8, "BlackDesk", "Desk", new File("blackdesk.jpg")));
+		//dm.addSubmission(new Submission(233243, "anotherDesk", "Desk", new File("decksss.jpg")));
+		//dm.addSubmission(new Submission(35453, "YellowLamp", "Lamp", new File("yellowlamp.jpg")));
 		//dm.removeSubmission(8);
 		//List<Submission> list = dm.getSubmissions();
 		//System.out.println(list.size());
+		dm.removeSubmission();
 		dm.printDataBase();
 		assertEquals(true, true);
 	}

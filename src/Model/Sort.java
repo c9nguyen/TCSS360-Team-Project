@@ -77,7 +77,6 @@ public class Sort {
 	 */
 	public void sortByCategory(String theCategory) {
 		if (theCategory.equalsIgnoreCase("chair")) {
-			String chair;
 			int pos = 0, listPos = 0;
 			Submission temp;
 			for (int i = 0; i < chairList.size(); i++) {
@@ -88,7 +87,7 @@ public class Sort {
 						pos = j;
 						//Set the Submission at i to the submission we found with the same category
 						temp = chairList.get(i);
-						ageList.set(i, chairList.get(pos));
+						chairList.set(i, chairList.get(pos));
 						chairList.set(pos, temp);
 						listPos++;
 						//Repeat until the end of the list. 
@@ -97,9 +96,45 @@ public class Sort {
 				
 			}
 		} else if (theCategory.equalsIgnoreCase("table")) {
-
+			String table;
+			int pos = 0, listPos = 0;
+			Submission temp;
+			for (int i = 0; i < tableList.size(); i++) {
+				for(int j = i; j < tableList.size(); j++) {
+					String tempString = tableList.get(j).getCategory();
+					if(!(listPos == j) && tempString.equalsIgnoreCase(theCategory)) {
+						//Remember the Position of the submission
+						pos = j;
+						//Set the Submission at i to the submission we found with the same category
+						temp = tableList.get(i);
+						tableList.set(i, tableList.get(pos));
+						tableList.set(pos, temp);
+						listPos++;
+						//Repeat until the end of the list. 
+					}
+				}
+				
+			}
 		} else if (theCategory.equalsIgnoreCase("lamp")) {
-			
+			String lamp;
+			int pos = 0, listPos = 0;
+			Submission temp;
+			for (int i = 0; i < lampList.size(); i++) {
+				for(int j = i; j < lampList.size(); j++) {
+					String tempString = lampList.get(j).getCategory();
+					if(!(listPos == j) && tempString.equalsIgnoreCase(theCategory)) {
+						//Remember the Position of the submission
+						pos = j;
+						//Set the Submission at i to the submission we found with the same category
+						temp = lampList.get(i);
+						lampList.set(i, lampList.get(pos));
+						lampList.set(pos, temp);
+						listPos++;
+						//Repeat until the end of the list. 
+					}
+				}
+				
+			}
 		} 
 	}
 	

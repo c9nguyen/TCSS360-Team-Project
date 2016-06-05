@@ -221,5 +221,52 @@ public class DataManager {
  		return contains;
  	}
  	
- 	// 4 sorted lists 	
+ 	/**
+ 	 * Returns a sorted list of submissions by age.
+ 	 * @return
+ 	 * @throws FileNotFoundException
+ 	 */
+ 	public List<Submission> getAgeLists() throws FileNotFoundException {
+ 		@SuppressWarnings({ "unchecked", "rawtypes" })
+		Sort sort = new Sort((ArrayList) getSubmissions());
+ 		sort.sortByAge();
+ 		return sort.ageList;
+ 	}
+ 	
+ 	/**
+ 	 * Returns a sorted list of submissions by category lamp.
+ 	 * @return Returns a sorted list of submissions by category lamp.
+ 	 * @throws FileNotFoundException
+ 	 */
+ 	public List<Submission> getLampList() throws FileNotFoundException {
+ 		@SuppressWarnings({ "unchecked", "rawtypes" })
+		Sort sort = new Sort((ArrayList) getSubmissions());
+ 		sort.sortByCategory("lamp");
+ 		return sort.lampList;
+ 	}
+ 	
+ 	/**
+ 	 * Returns a sorted list of submissions by category chair.
+ 	 * @return Returns a sorted list of submissions by category chair.
+ 	 * @throws FileNotFoundException
+ 	 */
+ 	public List<Submission> getChairList() throws FileNotFoundException {
+ 		@SuppressWarnings({ "unchecked", "rawtypes" })
+ 		Sort sort = new Sort((ArrayList) getSubmissions());
+ 		sort.sortByCategory("chair");
+ 		return sort.chairList;
+ 	}
+ 	
+ 	/**
+ 	 * Returns a sorted list of submissions by category table.
+ 	 * @return Returns a sorted list of submissions by category table.
+ 	 * @throws FileNotFoundException
+ 	 */
+ 	public List<Submission> getTableList() throws FileNotFoundException {
+ 		@SuppressWarnings({ "unchecked", "rawtypes" })
+ 		Sort sort = new Sort((ArrayList) getSubmissions());
+ 		sort.sortByCategory("table");
+ 		return sort.tableList;
+ 		
+ 	}
 }

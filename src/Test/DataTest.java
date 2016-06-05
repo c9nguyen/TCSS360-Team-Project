@@ -20,7 +20,7 @@ public class DataTest extends TestCase {
 	 */
 	@Before
 	public void setUp() {
-		dm = new DataManager(12345);
+		dm = new DataManager(1234);
 	}
 	
 	/**
@@ -35,11 +35,15 @@ public class DataTest extends TestCase {
 		//dm.removeSubmission(8);
 		//List<Submission> list = dm.getSubmissions();
 		//System.out.println(list.size());
-		dm.removeSubmission();
-		dm.printDataBase();
+		//dm.removeSubmission();
+		//dm.printDataBase();
 		assertEquals(true, true);
 	}
 	
-	
+	public void testGetLampList() throws IOException {
+		dm.addSubmission(new Submission(1234, "YellowLamp", "Lamp", new File("yellowlamp.jpg")));
+		System.out.println(dm.getLampList());
+		assertEquals(true, true);
+	}	
 }
 

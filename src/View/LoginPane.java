@@ -17,7 +17,7 @@ import javax.swing.BoxLayout;
 import java.awt.FlowLayout;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
-public class LoginPane extends JPanel {
+public class LoginPane extends AbstractPanel {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -40,7 +40,10 @@ public class LoginPane extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public LoginPane() {
+	public LoginPane(AbstractPanel caller) {
+		super(caller);
+		super.nextPanel = null;
+		
 		setLayout(new BorderLayout(0, 0));
 		
 		setupHeader();	

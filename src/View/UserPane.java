@@ -17,7 +17,7 @@ import java.awt.Button;
 import java.awt.Font;
 import javax.swing.JButton;
 
-public class UserPane extends JPanel {
+public class UserPane extends AbstractPanel {
 	private JTextField nameTxtField;
 	private JPanel resubmitPane;
 	private JPanel btnPane;
@@ -25,7 +25,10 @@ public class UserPane extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public UserPane() {
+	public UserPane(AbstractPanel caller) {
+		super(caller);
+		super.nextPanel = null;
+		
 		setLayout(new BorderLayout(0, 0));
 
 		setupHeader();

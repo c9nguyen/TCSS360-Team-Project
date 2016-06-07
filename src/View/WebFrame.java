@@ -59,22 +59,21 @@ public class WebFrame extends JFrame {
 	 * Create the frame.
 	 */
 	public WebFrame() {
+		contentPane = new MainPane(null);
+	
 		setUpFrame();
-		
-		UserPane myPane = new UserPane();
-		setContentPane(myPane);
 	}
 	
 	private void setUpFrame() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//		setBounds(100, 100, 450, 300);		
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);		
 		setPreferredSize(new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT));
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
 		pack();
 		setLocationRelativeTo(null);
+	}
+	
+	public void nextPane() {
+		setContentPane(nextPanel);
 	}
 
 }

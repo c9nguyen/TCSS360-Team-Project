@@ -10,6 +10,9 @@ import java.awt.BorderLayout;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.border.LineBorder;
+
+import Controller.NextPanelListener;
+
 import java.awt.Color;
 import javax.swing.JTextArea;
 import javax.swing.JScrollBar;
@@ -19,20 +22,24 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
+
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class MainPane extends AbstractPanel {
-
+	
 	/**
 	 * Create the panel.
 	 */
-	public MainPane(AbstractPanel caller) {
-		super(caller);
-		super.nextPanel = new LoginPane(this);
+	public MainPane(WebFrame theFrame, AbstractPanel caller) {
+		super(theFrame, caller);
+		super.nextPanel = new LoginPane(theFrame, this);
 		
 		setLayout(new BorderLayout(0, 0));
 		setupHeader();
@@ -49,6 +56,7 @@ public class MainPane extends AbstractPanel {
 	}
 	
 	private void setupDescription() {
+
 		JPanel centerPanel = new JPanel();
 		add(centerPanel, BorderLayout.CENTER);
 		centerPanel.setLayout(new BorderLayout(0, 0));
@@ -64,9 +72,7 @@ public class MainPane extends AbstractPanel {
 		RightsidePanel.setSize(10, 10);
 		RightsidePanel.setBackground(Color.YELLOW);
 		add(RightsidePanel, BorderLayout.EAST);
-		
-
-		
+			
 		
 		JTextArea txtDescription = new JTextArea();
 		txtDescription.setEditable(false);
@@ -91,6 +97,7 @@ public class MainPane extends AbstractPanel {
 		add(southPane, BorderLayout.SOUTH);
 		
 		JButton loginBtn = new JButton("Login");
+		loginBtn.addActionListener(new NextPanelListener(myFrame));
 		southPane.add(loginBtn);
 	}
 	

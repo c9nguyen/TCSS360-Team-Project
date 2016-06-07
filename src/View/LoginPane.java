@@ -40,8 +40,8 @@ public class LoginPane extends AbstractPanel {
 	/**
 	 * Create the panel.
 	 */
-	public LoginPane(AbstractPanel caller) {
-		super(caller);
+	public LoginPane(WebFrame theFrame, AbstractPanel caller) {
+		super(theFrame, caller);
 		super.nextPanel = null;
 		
 		setLayout(new BorderLayout(0, 0));

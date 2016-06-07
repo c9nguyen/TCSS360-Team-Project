@@ -25,8 +25,8 @@ public class UserPane extends AbstractPanel {
 	/**
 	 * Create the panel.
 	 */
-	public UserPane(AbstractPanel caller) {
-		super(caller);
+	public UserPane(WebFrame theFrame, AbstractPanel caller) {
+		super(theFrame, caller);
 		super.nextPanel = null;
 		
 		setLayout(new BorderLayout(0, 0));

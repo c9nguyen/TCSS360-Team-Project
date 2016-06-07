@@ -29,7 +29,7 @@ public class WebFrame extends JFrame {
 	
 	public static final int DEFAULT_HEIGHT = (int) (SIZE.getHeight() * RATIO);
 		
-	private JPanel contentPane;
+	private AbstractPanel contentPane;
 	
 	private JPanel myMainPanel;
 	
@@ -59,21 +59,30 @@ public class WebFrame extends JFrame {
 	 * Create the frame.
 	 */
 	public WebFrame() {
-		contentPane = new MainPane(null);
+		contentPane = new MainPane(this, null);
 	
 		setUpFrame();
 	}
 	
 	private void setUpFrame() {
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);		
 		setPreferredSize(new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT));
 		setContentPane(contentPane);
 		pack();
 		setLocationRelativeTo(null);
+		setResizable(false);
 	}
 	
-	public void nextPane() {
-		setContentPane(nextPanel);
+	public void goNext() {
+		
+		setContentPane(new LoginPane(this, null));
+		setContentPane(contentPane.getNextPanel());
+		revalidate();
+	}
+	
+	public void goBack() {
+		setContentPane(contentPane.getBackPanel());
 	}
 
 }

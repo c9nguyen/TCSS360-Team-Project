@@ -8,7 +8,20 @@ public class AbstractPanel extends JPanel{
 	
 	protected AbstractPanel backPanel;
 	
-	public AbstractPanel(AbstractPanel caller) {
+	protected WebFrame myFrame;
+	
+	public AbstractPanel(WebFrame theFrame,  AbstractPanel caller) {
+		myFrame = theFrame;
 		backPanel = caller;
+	}
+	
+	public AbstractPanel getNextPanel() {
+		return nextPanel;
+	}
+
+
+
+	public AbstractPanel getBackPanel() {
+		return backPanel;
 	}
 }

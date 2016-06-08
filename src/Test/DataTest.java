@@ -45,5 +45,9 @@ public class DataTest extends TestCase {
 		System.out.println(dm.getLampList());
 		assertEquals(true, true);
 	}	
+	
+	public void testIsUser() {
+		assertEquals(dm.isUser("wordup"), true);
+	}
 }
 

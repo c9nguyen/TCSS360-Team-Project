@@ -25,11 +25,13 @@ public class WebFrame extends JFrame {
 	/* Setting up size of frame */
 	public static final Dimension SIZE = Toolkit.getDefaultToolkit().getScreenSize();
 	
-	public static final double RATIO = 0.7;
+	public static final double WIDTH_RATIO = 0.6;
 	
-	public static final int DEFAULT_WIDTH = (int) (SIZE.getWidth() * RATIO);
+	public static final double HEIGHT_RATIO = 0.7;
 	
-	public static final int DEFAULT_HEIGHT = (int) (SIZE.getHeight() * RATIO);
+	public static final int DEFAULT_WIDTH = (int) (SIZE.getWidth() * WIDTH_RATIO);
+	
+	public static final int DEFAULT_HEIGHT = (int) (SIZE.getHeight() * HEIGHT_RATIO);
 		
 	private AbstractPanel contentPane;
 	

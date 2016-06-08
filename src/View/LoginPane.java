@@ -10,6 +10,7 @@ import javax.swing.SwingConstants;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import Controller.BackPanelListener;
 import Model.DataManager;
 
 import javax.swing.JButton;
@@ -188,20 +189,26 @@ public class LoginPane extends AbstractPanel {
 		centerPane.add(idPane);
 
 		
-		JPanel panel = new JPanel();
-		add(panel, BorderLayout.SOUTH);
+		JPanel southPane = new JPanel();
+		FlowLayout flowLayout = (FlowLayout) southPane.getLayout();
+		flowLayout.setAlignment(FlowLayout.LEFT);
+		add(southPane, BorderLayout.SOUTH);
+		
+		JButton btnBack = new JButton("Back");
+		btnBack.addActionListener(new BackPanelListener(myFrame));
+		southPane.add(btnBack);
 //		panel.setPreferredSize(idPane.getPreferredSize());
 //		panel.setMinimumSize(idPane.getMinimumSize());
 //		panel.setMinimumSize(idPane.getMaximumSize());
 		
-		JPanel panel_1 = new JPanel();
-		add(panel_1, BorderLayout.WEST);
+		JPanel westfilter = new JPanel();
+		add(westfilter, BorderLayout.WEST);
 //		panel_1.setPreferredSize(idPane.getPreferredSize());
 //		panel_1.setMinimumSize(idPane.getMinimumSize());
 //		panel_1.setMinimumSize(idPane.getMaximumSize());
 		
-		JPanel panel_2 = new JPanel();
-		add(panel_2, BorderLayout.EAST);
+		JPanel eastfilter = new JPanel();
+		add(eastfilter, BorderLayout.EAST);
 //		panel_2.setPreferredSize(idPane.getPreferredSize());
 //		panel_2.setMinimumSize(idPane.getMinimumSize());
 //		panel_2.setMinimumSize(idPane.getMaximumSize());

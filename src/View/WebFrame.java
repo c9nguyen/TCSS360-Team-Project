@@ -9,6 +9,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import Model.DataManager;
+
 /**
  * @author tryHARD
  * TCSS 360
@@ -29,15 +31,9 @@ public class WebFrame extends JFrame {
 	
 	public static final int DEFAULT_HEIGHT = (int) (SIZE.getHeight() * RATIO);
 		
-	private JPanel contentPane;
+	private AbstractPanel contentPane;
 	
-	private JPanel myMainPanel;
-	
-	/* Next Panel */
-	private JPanel nextPanel;
-	
-	/* Previous Panel */
-	private JPanel previousPanel;
+	private DataManager myDataManageer;
 
 	/**
 	 * Launch the application.
@@ -59,22 +55,33 @@ public class WebFrame extends JFrame {
 	 * Create the frame.
 	 */
 	public WebFrame() {
+		contentPane = new MainPane(this, null);
+		myDataManageer = new DataManager();
 		setUpFrame();
-		
-		UserPane myPane = new UserPane();
-		setContentPane(myPane);
 	}
 	
 	private void setUpFrame() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//		setBounds(100, 100, 450, 300);		
+		
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);		
 		setPreferredSize(new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT));
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
 		pack();
 		setLocationRelativeTo(null);
+		setResizable(false);
+	}
+	
+	public void goNext() {
+		
+		setContentPane(new LoginPane(this, null));
+		setContentPane(contentPane.getNextPanel());
+		revalidate();
+	}
+	
+	public void goBack() {
+		setContentPane(contentPane.getBackPanel());
 	}
 
+	public DataManager getDataManager() {
+		return myDataManageer;
+	}
 }

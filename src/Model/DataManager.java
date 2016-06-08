@@ -23,12 +23,15 @@ public class DataManager {
 
 	private int myID;
 	
+	private String myPassword;
+	
 	
 	/**
 	 * Constructs an object to manipulate submissions in database.
 	 */
- 	public DataManager(int theID) {
- 		this.myID = theID;
+ 	public DataManager() {
+ 		myID = 0;
+ 		myPassword = null;
  	}
  	
 	/**
@@ -213,7 +216,7 @@ public class DataManager {
  		while (input.hasNextLine()) {
  			String line = input.nextLine();
  			String[] parts = line.split(" ");
- 			if (parts[0].equals(myID + "") && parts[1].equals(password)) {
+ 			if (parts[0].equals(myID) && parts[1].equals(password)) {
  				contains = true;
  			}
  		}
@@ -268,5 +271,9 @@ public class DataManager {
  		sort.sortByCategory("table");
  		return sort.tableList;
  		
+ 	}
+ 	 	
+ 	public void resetPassword() {
+ 		myPassword = null;
  	}
 }

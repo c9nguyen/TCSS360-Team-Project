@@ -1,4 +1,4 @@
-package View;
+package view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -13,7 +13,7 @@ import javax.swing.JTable;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
-public class SubmissionsPane extends AbstractPanel {
+public class SubmissionsPane extends JPanel {
 
 	/**
 	 * 
@@ -22,10 +22,7 @@ public class SubmissionsPane extends AbstractPanel {
 	/**
 	 * Create the panel.
 	 */
-	public SubmissionsPane(WebFrame theFrame, AbstractPanel caller) {
-		super(theFrame, caller);
-		super.nextPanel = null;
-		
+	public SubmissionsPane() {
 		setLayout(new BorderLayout(0,0));
 		eastPane();
 //		westPanel();

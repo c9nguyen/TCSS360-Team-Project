@@ -20,7 +20,7 @@ public class DataTest extends TestCase {
 	 */
 	@Before
 	public void setUp() {
-		dm = new DataManager(1234);
+		dm = new DataManager();
 	}
 	
 	/**

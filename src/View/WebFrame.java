@@ -71,9 +71,8 @@ public class WebFrame extends JFrame {
 	}
 	
 	public void goNext() {
-		
-		setContentPane(new LoginPane(this, null));
-		setContentPane(contentPane.getNextPanel());
+		contentPane = contentPane.nextPanel;
+		setContentPane(contentPane);
 		revalidate();
 	}
 	

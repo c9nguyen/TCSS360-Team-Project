@@ -9,18 +9,24 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 
 import javax.swing.border.TitledBorder;
+
+import Model.Submission;
+
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
 import java.awt.FlowLayout;
 import java.awt.Button;
 import java.awt.Font;
+import java.io.FileNotFoundException;
+
 import javax.swing.JButton;
 
 public class UserPane extends AbstractPanel {
 	private JTextField nameTxtField;
 	private JPanel resubmitPane;
 	private JPanel btnPane;
+	private JLabel lblFile;
 
 	/**
 	 * Create the panel.
@@ -111,6 +117,8 @@ public class UserPane extends AbstractPanel {
 		
 		JPanel westfiller = new JPanel();
 		westPane.add(westfiller, BorderLayout.WEST);
+		
+		loadSubmission();
 	}
 
 	private void setupHeader() {
@@ -125,7 +133,7 @@ public class UserPane extends AbstractPanel {
 		headerPane.setLayout(new BorderLayout(0, 0));
 		headerPane.setPreferredSize(new Dimension(100, 100));
 
-		JLabel lblFile = new JLabel("File: ");
+		lblFile = new JLabel("File: ");
 		lblFile.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lblFile.setHorizontalAlignment(SwingConstants.CENTER);
 		headerPane.add(lblFile, BorderLayout.WEST);
@@ -135,6 +143,22 @@ public class UserPane extends AbstractPanel {
 
 		JPanel eastfiller = new JPanel();
 		northPane.add(eastfiller, BorderLayout.EAST);
+	}
+	
+	public void loadSubmission() {
+		try {
+			boolean submission = myFrame.getDataManager().containsSubmission();
+			System.out.println(submission);
+			
+			Submission mysubmit = myFrame.getDataManager().getSubmission();
+			System.out.println(mysubmit);
+			
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 	}
 	
 	public void setResubmit(boolean on) {

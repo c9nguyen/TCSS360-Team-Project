@@ -211,16 +211,24 @@ public class DataManager {
  	}
  	
  	private boolean contains(String fileName, String password) {
- 		Scanner input = new Scanner(fileName);
+ 		Scanner input;
  		boolean contains = false;
- 		while (input.hasNextLine()) {
- 			String line = input.nextLine();
- 			String[] parts = line.split(" ");
- 			if (parts[0].equals(myID) && parts[1].equals(password)) {
- 				contains = true;
- 			}
- 		}
- 		input.close();
+		try {
+			input = new Scanner(new File(fileName));
+	
+	 		while (input.hasNextLine()) {
+	 			String line = input.nextLine();
+	 			String[] parts = line.split(" ");
+	 			if (Integer.parseInt(parts[0]) == myID && parts[1].equals(password)) {
+	 				contains = true;
+	 			}
+	 		}
+	 		input.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
  		return contains;
  	}
  	

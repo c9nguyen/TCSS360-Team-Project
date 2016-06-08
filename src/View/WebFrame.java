@@ -77,7 +77,9 @@ public class WebFrame extends JFrame {
 	}
 	
 	public void goBack() {
-		setContentPane(contentPane.getBackPanel());
+		contentPane = contentPane.backPanel;
+		setContentPane(contentPane);
+		revalidate();
 	}
 
 	public DataManager getDataManager() {

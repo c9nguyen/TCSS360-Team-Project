@@ -10,6 +10,7 @@ import java.awt.Dimension;
 
 import javax.swing.border.TitledBorder;
 
+import Controller.BackPanelListener;
 import Model.Submission;
 
 import javax.swing.JLabel;
@@ -21,12 +22,20 @@ import java.awt.Font;
 import java.io.FileNotFoundException;
 
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class UserPane extends AbstractPanel {
 	private JTextField nameTxtField;
 	private JPanel resubmitPane;
-	private JPanel btnPane;
+	private JPanel btnSubmitPane;
 	private JLabel lblFile;
+	private JButton btnWithdraw;
+	private JButton btnResubmit;
+	private JButton btnSubmit;
+	private JPanel eastPane;
+	private JLabel lblSubmissionName;
+	private JLabel lblSubmissionCatergory;
 
 	/**
 	 * Create the panel.
@@ -86,25 +95,30 @@ public class UserPane extends AbstractPanel {
 
 
 
-		btnPane = new JPanel();
-		editorPane.add(btnPane);
-		btnPane.setMaximumSize(namePane.getPreferredSize());
+		btnSubmitPane = new JPanel();
+		editorPane.add(btnSubmitPane);
+		btnSubmitPane.setMaximumSize(namePane.getPreferredSize());
 
-		JButton btnNewButton = new JButton("Submit");
-		btnNewButton.setEnabled(false);
-		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		btnPane.add(btnNewButton);
+		btnSubmit = new JButton("Submit");
+		btnSubmit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		btnSubmit.setEnabled(false);
+		btnSubmit.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		btnSubmitPane.add(btnSubmit);
 
 		resubmitPane = new JPanel();
 		editorPane.add(resubmitPane);
 
-		JButton btnNewButton_1 = new JButton("Resubmit");
-		btnNewButton_1.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		resubmitPane.add(btnNewButton_1);
+		btnResubmit = new JButton("Resubmit");
+		btnResubmit.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		resubmitPane.add(btnResubmit);
 
-		JButton btnNewButton_2 = new JButton("Withdraw");
-		btnNewButton_2.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		resubmitPane.add(btnNewButton_2);
+		btnWithdraw = new JButton("Withdraw");
+		btnWithdraw.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		resubmitPane.add(btnWithdraw);
 		
 	
 
@@ -112,11 +126,43 @@ public class UserPane extends AbstractPanel {
 		uploadPane.setMaximumSize(namePane.getPreferredSize());
 		resubmitPane.setMaximumSize(resubmitPane.getPreferredSize());
 		categoryPane.setMaximumSize(namePane.getPreferredSize());
-
-		resubmitPane.setVisible(false);
 		
 		JPanel westfiller = new JPanel();
 		westPane.add(westfiller, BorderLayout.WEST);
+		
+		eastPane = new JPanel();
+		eastPane.setVisible(false);
+		add(eastPane, BorderLayout.EAST);
+		eastPane.setLayout(new BorderLayout(0, 0));
+		
+		JPanel panel = new JPanel();
+		eastPane.add(panel);
+		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+		
+		lblSubmissionName = new JLabel("Name:");
+		panel.add(lblSubmissionName);
+		lblSubmissionName.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		
+		lblSubmissionCatergory = new JLabel("Category:");
+		panel.add(lblSubmissionCatergory);
+		lblSubmissionCatergory.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		
+		JPanel westfilter = new JPanel();
+		eastPane.add(westfilter, BorderLayout.WEST);
+		westfilter.setPreferredSize(new Dimension(200, 200));
+		
+		JPanel eastfilter = new JPanel();
+		eastfilter.setPreferredSize(new Dimension(100, 100));
+		eastPane.add(eastfilter, BorderLayout.EAST);
+		
+		JPanel panel_1 = new JPanel();
+		FlowLayout flowLayout = (FlowLayout) panel_1.getLayout();
+		flowLayout.setAlignment(FlowLayout.LEFT);
+		add(panel_1, BorderLayout.SOUTH);
+		
+		JButton btnBack = new JButton("Back");
+		btnBack.addActionListener(new BackPanelListener(myFrame));
+		panel_1.add(btnBack);
 		
 		loadSubmission();
 	}
@@ -131,7 +177,7 @@ public class UserPane extends AbstractPanel {
 		headerPane.setBorder(new TitledBorder(null, "Submission", TitledBorder.LEADING, 
 				TitledBorder.TOP, new Font("Arial", Font.PLAIN, 20), null));
 		headerPane.setLayout(new BorderLayout(0, 0));
-		headerPane.setPreferredSize(new Dimension(100, 100));
+		headerPane.setPreferredSize(new Dimension(100, 200));
 
 		lblFile = new JLabel("File: ");
 		lblFile.setFont(new Font("Tahoma", Font.PLAIN, 20));
@@ -148,10 +194,21 @@ public class UserPane extends AbstractPanel {
 	public void loadSubmission() {
 		try {
 			boolean submission = myFrame.getDataManager().containsSubmission();
-			System.out.println(submission);
-			
-			Submission mysubmit = myFrame.getDataManager().getSubmission();
-			System.out.println(mysubmit);
+			if (submission) {
+				Submission mysubmit = myFrame.getDataManager().getSubmission();
+				
+				btnSubmitPane.setVisible(false);
+				resubmitPane.setVisible(true);				
+				eastPane.setVisible(true);
+				
+				lblSubmissionName.setText("Name: \n" + mysubmit.getName());
+				lblSubmissionCatergory.setText("Category: \n" + mysubmit.getCategory());
+				lblFile.setText("File: " + mysubmit.getImage().getName());
+			} else {
+				
+				btnSubmitPane.setVisible(true);
+				resubmitPane.setVisible(false);
+			}
 			
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -164,10 +221,10 @@ public class UserPane extends AbstractPanel {
 	public void setResubmit(boolean on) {
 		if (on) {
 			resubmitPane.setVisible(true);
-			btnPane.setVisible(false);
+			btnSubmitPane.setVisible(false);
 		} else {
 			resubmitPane.setVisible(false);
-			btnPane.setVisible(true);
+			btnSubmitPane.setVisible(true);
 		}
 	}
 }

@@ -47,7 +47,6 @@ public class DataTest extends TestCase {
 	}	
 	
 	public void testIsUser() {
-		dm.isUser("wordup");
 		assertEquals(dm.isUser("wordup"), true);
 	}
 }

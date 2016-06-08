@@ -188,9 +188,10 @@ public class DataManager {
  	 * If no submission has been added for the given ID than
  	 * a null submission will be returned.
  	 * @return Returns a submission for the stored ID.
+ 	 * @throws FileNotFoundException 
  	 */
- 	public Submission getSubmission() {
- 		List<Submission> list = new ArrayList<Submission>();
+ 	public Submission getSubmission() throws FileNotFoundException {
+ 		List<Submission> list = getSubmissions();
  		Submission sub = null;
  		for (int i = 0; i < list.size(); i++) {
  			if (list.get(i).getID() == myID) {

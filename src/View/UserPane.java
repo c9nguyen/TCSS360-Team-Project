@@ -110,13 +110,12 @@ public class UserPane extends AbstractPanel {
 				fc.setFileFilter(filter);
 
 				int returnVal = fc.showOpenDialog(myFrame);
-				System.out.println(returnVal);
 				if (returnVal == JFileChooser.APPROVE_OPTION) {
 					myFile = fc.getSelectedFile();
 					lblUploadFile.setText(myFile.getPath());
 					btnSubmit.setEnabled(true);
 					myFrame.revalidate();
-					System.out.println(myFile.getPath());
+			
 				} else {
 					JOptionPane.showMessageDialog(myFrame, "Invalid file");
 				}
@@ -162,7 +161,10 @@ public class UserPane extends AbstractPanel {
 				if (myFile != null) {
 					if (checkSubmit()) {
 
-						if (JOptionPane.showConfirmDialog(myFrame, "Are you sure you want to resubmit?") == 
+						if (JOptionPane.showConfirmDialog(myFrame, "Are you sure you want to resubmit?",
+								"Withdraw",
+								JOptionPane.YES_NO_OPTION,
+								JOptionPane.QUESTION_MESSAGE) == 
 								JOptionPane.YES_OPTION) {
 							File oldFile = new File("images/" + myFrame.getDataManager().getID());
 							delete(oldFile);

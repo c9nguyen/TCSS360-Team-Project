@@ -176,16 +176,25 @@ public class UserPane extends AbstractPanel {
 
 		btnWithdraw = new JButton("Withdraw");
 		btnWithdraw.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		btnResubmit.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (myFile != null) {
-					if (JOptionPane.showConfirmDialog(myFrame, "Are you sure you want to withdraw?") == 
+		btnWithdraw.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {		
+					if (JOptionPane.showConfirmDialog(myFrame, "Are you sure you want to withdraw?",
+							"Withdraw",
+							JOptionPane.YES_NO_OPTION,
+							JOptionPane.QUESTION_MESSAGE) == 
 							JOptionPane.YES_OPTION) {
 						File oldFile = new File("images/" + myFrame.getDataManager().getID());
-						delete(oldFile);
+						delete(oldFile);						
+						try {
+							myFrame.getDataManager().removeSubmission();
+						} catch (IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+						loadSubmission();
 					}
 
-				}
+
 			}
 		});
 		resubmitPane.add(btnWithdraw);
@@ -278,6 +287,10 @@ public class UserPane extends AbstractPanel {
 
 				btnSubmitPane.setVisible(true);
 				resubmitPane.setVisible(false);
+				
+				lblSubmissionName.setText("");
+				lblSubmissionCatergory.setText("");
+				lblFile.setText("File: ");
 			}
 
 		} catch (FileNotFoundException e) {

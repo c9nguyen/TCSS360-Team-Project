@@ -9,6 +9,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import Model.DataManager;
+
 /**
  * @author tryHARD
  * TCSS 360
@@ -31,13 +33,7 @@ public class WebFrame extends JFrame {
 		
 	private AbstractPanel contentPane;
 	
-	private JPanel myMainPanel;
-	
-	/* Next Panel */
-	private JPanel nextPanel;
-	
-	/* Previous Panel */
-	private JPanel previousPanel;
+	private DataManager myDataManageer;
 
 	/**
 	 * Launch the application.
@@ -60,7 +56,7 @@ public class WebFrame extends JFrame {
 	 */
 	public WebFrame() {
 		contentPane = new MainPane(this, null);
-	
+		myDataManageer = new DataManager();
 		setUpFrame();
 	}
 	
@@ -85,4 +81,7 @@ public class WebFrame extends JFrame {
 		setContentPane(contentPane.getBackPanel());
 	}
 
+	public DataManager getDataManager() {
+		return myDataManageer;
+	}
 }

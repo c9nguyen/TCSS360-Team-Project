@@ -13,7 +13,7 @@ import javax.swing.JTable;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
-public class SubmissionsPane extends JPanel {
+public class SubmissionsPane extends AbstractPanel {
 
 	/**
 	 * 
@@ -22,7 +22,10 @@ public class SubmissionsPane extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public SubmissionsPane() {
+	public SubmissionsPane(WebFrame theFrame, AbstractPanel caller) {
+		super(theFrame, caller);
+		super.nextPanel = null;
+		
 		setLayout(new BorderLayout(0,0));
 		eastPane();
 //		westPanel();

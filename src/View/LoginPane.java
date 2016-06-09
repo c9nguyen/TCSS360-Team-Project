@@ -1,42 +1,45 @@
 package View;
 
-import javax.swing.JPanel;
 import java.awt.BorderLayout;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridLayout;
-import javax.swing.SpringLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.SwingConstants;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 
 import Controller.BackPanelListener;
 import Model.DataManager;
 
-import javax.swing.JButton;
-import java.awt.Font;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import java.awt.Color;
-import java.awt.Dimension;
-import javax.swing.BoxLayout;
-import java.awt.FlowLayout;
-import javax.swing.LayoutStyle.ComponentPlacement;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-
+/**
+ * Loging Panel where user can log in by using ID and Password
+ * @author tryHARD
+ *
+ */
 public class LoginPane extends AbstractPanel {
 
 	private static final long serialVersionUID = 1L;
 	
+	/* Reset the report */
+	public final int NONE = 0;
 	/* Reporting the id input is invalid */
-	public final int INVALID_ID = 0;
+	public final int INVALID_ID = 1;
 	/* Reporting the id or password is wrong */
-	public final int WRONG = 1;
+	public final int WRONG = 2;
 	/* Reporting the id is wrong */
-	public final int EMPTY_ID = 2;
+	public final int EMPTY_ID = 3;
 	/* Reporting the password is wrong */
-	public final int EMPTY_PASS = 3;
+	public final int EMPTY_PASS = 4;
 	
 	/* text field for id */
 	private JTextField idTxtField;
@@ -129,9 +132,11 @@ public class LoginPane extends AbstractPanel {
 				checkingData.setID(id);
 				
 				// Check if user or admin
-				if (checkingData.isUser(password)) {
-					gotoUser();
+				if (checkingData.isUser(password)) {				
+					reportError(NONE);
+					gotoUser();				
 				} else if (checkingData.isAdmin(password)) {
+					reportError(NONE);
 					gotoAdmin();
 				} else {
 					checkingData.setID(0);
@@ -245,6 +250,9 @@ public class LoginPane extends AbstractPanel {
 	 */
 	public void reportError(int error) {
 		switch(error) {
+		case NONE:
+			reportLbl.setText("");
+			break;
 		case INVALID_ID:
 			reportLbl.setText("Please enter valid library ID");
 			break;

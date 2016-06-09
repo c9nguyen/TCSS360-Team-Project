@@ -1,37 +1,29 @@
 package View;
 
-import javax.swing.JPanel;
-import javax.swing.JTextPane;
-import javax.swing.ScrollPaneConstants;
-import javax.imageio.ImageIO;
-import javax.swing.BoxLayout;
-import javax.swing.JScrollPane;
 import java.awt.BorderLayout;
-import javax.swing.JTextField;
-import javax.swing.JLabel;
-import javax.swing.border.LineBorder;
-
-import Controller.NextPanelListener;
-
 import java.awt.Color;
-import javax.swing.JTextArea;
-import javax.swing.JScrollBar;
-import java.awt.Scrollbar;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
-
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-
+import javax.imageio.ImageIO;
 import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.SwingConstants;
 
+import Controller.NextPanelListener;
+
+/**
+ * Main Panel, includes the title and description for the event.
+ * @author tryHARD
+ *
+ */
 public class MainPane extends AbstractPanel {
 	
 	/**
@@ -78,8 +70,6 @@ public class MainPane extends AbstractPanel {
 		txtDescription.setEditable(false);
 		txtDescription.setLineWrap(true);
 		
-//		txtDescription.setBackground(Color.BLUE);
-//		txtDescription.setPreferredSize(new java.awt.Dimension(384, 129));
 		txtDescription.setSelectedTextColor(Color.BLACK);
 		txtDescription.setFont(new Font("Burnt", Font.PLAIN, 30));
 		txtDescription.setForeground(Color.BLACK);

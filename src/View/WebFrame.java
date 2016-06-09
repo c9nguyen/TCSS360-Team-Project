@@ -1,13 +1,10 @@
 package View;
 
-import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Toolkit;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 
 import Model.DataManager;
 
@@ -25,16 +22,22 @@ public class WebFrame extends JFrame {
 	/* Setting up size of frame */
 	public static final Dimension SIZE = Toolkit.getDefaultToolkit().getScreenSize();
 	
+	/* Ratio of width to screen size */
 	public static final double WIDTH_RATIO = 0.6;
 	
+	/* Ratio of height to screen size */
 	public static final double HEIGHT_RATIO = 0.7;
 	
+	/* Default width */
 	public static final int DEFAULT_WIDTH = (int) (SIZE.getWidth() * WIDTH_RATIO);
 	
+	/* Default height */
 	public static final int DEFAULT_HEIGHT = (int) (SIZE.getHeight() * HEIGHT_RATIO);
 		
+	/* The current pane displayed */
 	private AbstractPanel contentPane;
 	
+	/* The Data manager to control all data */
 	private DataManager myDataManageer;
 
 	/**
@@ -62,6 +65,9 @@ public class WebFrame extends JFrame {
 		setUpFrame();
 	}
 	
+	/**
+	 * Setting the Frame.
+	 */
 	private void setUpFrame() {
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);		
@@ -72,18 +78,28 @@ public class WebFrame extends JFrame {
 		setResizable(false);
 	}
 	
+	/**
+	 * Go to next panel corresponding to current panel
+	 */
 	public void goNext() {
 		contentPane = contentPane.nextPanel;
 		setContentPane(contentPane);
 		revalidate();
 	}
 	
+	/**
+	 * Go to back panel corresponding to current panel
+	 */
 	public void goBack() {
 		contentPane = contentPane.backPanel;
 		setContentPane(contentPane);
 		revalidate();
 	}
 
+	/**
+	 * Get the data manager
+	 * @return
+	 */
 	public DataManager getDataManager() {
 		return myDataManageer;
 	}

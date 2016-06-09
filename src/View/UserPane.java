@@ -1,15 +1,31 @@
 package View;
 
-import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Files;
+
 import javax.imageio.ImageIO;
-import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
-
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -18,42 +34,43 @@ import Controller.BackPanelListener;
 import Model.Category;
 import Model.Submission;
 
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.SwingConstants;
-import javax.swing.JTextField;
-import java.awt.FlowLayout;
-import java.awt.Button;
-import java.awt.Color;
-import java.awt.Font;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption.*;
-
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.image.BufferedImage;
-import java.awt.event.ActionEvent;
-import java.awt.GridLayout;
-
+/**
+ * Contestant uses this panel to submit their entry.
+ * @author tryHARD
+ *
+ */
 public class UserPane extends AbstractPanel {
+	/* Input name of the submission */
 	private JTextField nameTxtField;
+	
+	/* The panel of resubmit buttons */
 	private JPanel resubmitPane;
+	
+	/* The panel of submit button */
 	private JPanel btnSubmitPane;
-	private JLabel lblFile;
-	private JButton btnWithdraw;
-	private JButton btnResubmit;
+	
+	/* The submit button */
 	private JButton btnSubmit;
+	
+	/* The label of submission file */
+	private JLabel lblFile;
+
+	/* East Panel contains submission information */
 	private JPanel eastPane;
+	
+	/* Name of the submission */
 	private JLabel lblSubmissionName;
+	
+	/* Category of the submission */
 	private JLabel lblSubmissionCatergory;
+	
+	/* List of categories */
 	private JComboBox<String> categoryBox;
 
+	/* SUbmission File */
 	private File myFile;
+	
+	/* File name of the submission */
 	private JLabel lblUploadFile;
 
 	/**
@@ -66,7 +83,39 @@ public class UserPane extends AbstractPanel {
 		setLayout(new BorderLayout(0, 0));
 
 		setupHeader();
+		setupWest();
+		setupEast();
+		loadSubmission();
+	}
 
+	/**
+	 * Setting up the header.
+	 */
+	private void setupHeader() {
+
+		JPanel northPane = new JPanel();
+		add(northPane, BorderLayout.NORTH);
+		northPane.setLayout(new BorderLayout(0, 0));
+		JPanel headerPane = new JPanel();
+		northPane.add(headerPane);
+		headerPane.setBorder(new TitledBorder(null, "Submission", TitledBorder.LEADING, 
+				TitledBorder.TOP, new Font("Arial", Font.PLAIN, 20), null));
+		headerPane.setLayout(new BorderLayout(0, 0));
+		headerPane.setPreferredSize(new Dimension(100, 200));
+
+		lblFile = new JLabel("File: ");
+		lblFile.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblFile.setHorizontalAlignment(SwingConstants.CENTER);
+		headerPane.add(lblFile, BorderLayout.WEST);
+
+		JPanel westfiller = new JPanel();
+		northPane.add(westfiller, BorderLayout.WEST);
+
+		JPanel eastfiller = new JPanel();
+		northPane.add(eastfiller, BorderLayout.EAST);
+	}
+	
+	private void setupWest() {
 		JPanel westPane = new JPanel();
 		add(westPane, BorderLayout.WEST);
 		westPane.setLayout(new BorderLayout(0, 0));
@@ -105,7 +154,22 @@ public class UserPane extends AbstractPanel {
 		JPanel uploadPane = new JPanel();
 		editorPane.add(uploadPane);
 
-
+		btnSubmitPane = new JPanel();
+		editorPane.add(btnSubmitPane);
+		btnSubmitPane.setMaximumSize(namePane.getPreferredSize());
+		
+		btnSubmit = new JButton("Submit");
+		btnSubmit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (myFile != null) {
+					if (checkSubmit())
+						submit();
+				}
+			}
+		});
+		btnSubmit.setEnabled(false);
+		btnSubmit.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		btnSubmitPane.add(btnSubmit);
 
 		JButton btnUpload = new JButton("Upload");
 		btnUpload.addActionListener(new ActionListener() {
@@ -121,7 +185,7 @@ public class UserPane extends AbstractPanel {
 					btnSubmit.setEnabled(true);
 					myFrame.revalidate();
 			
-				} else {
+				} else if (returnVal != JFileChooser.CANCEL_OPTION){
 					JOptionPane.showMessageDialog(myFrame, "Invalid file");
 				}
 			}
@@ -135,31 +199,11 @@ public class UserPane extends AbstractPanel {
 		lblUploadFile = new JLabel("");
 		fileLblPane.add(lblUploadFile);
 
-
-
-
-		btnSubmitPane = new JPanel();
-		editorPane.add(btnSubmitPane);
-		btnSubmitPane.setMaximumSize(namePane.getPreferredSize());
-
-		btnSubmit = new JButton("Submit");
-		btnSubmit.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (myFile != null) {
-					if (checkSubmit())
-						submit();
-				}
-			}
-		});
-		btnSubmit.setEnabled(false);
-		btnSubmit.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		btnSubmitPane.add(btnSubmit);
-
 		resubmitPane = new JPanel();
 
 		editorPane.add(resubmitPane);
 
-		btnResubmit = new JButton("Resubmit");
+		JButton btnResubmit = new JButton("Resubmit");
 		btnResubmit.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		btnResubmit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -173,7 +217,14 @@ public class UserPane extends AbstractPanel {
 								JOptionPane.YES_OPTION) {
 							File oldFile = new File("images/" + myFrame.getDataManager().getID());
 							delete(oldFile);
-							submit();
+							try {
+								myFrame.getDataManager().removeSubmission();
+								loadSubmission();
+								submit();
+							} catch (IOException e1) {
+								JOptionPane.showMessageDialog(myFrame, "Unable to find the file");
+							}
+						
 						}
 					}
 				}
@@ -181,7 +232,7 @@ public class UserPane extends AbstractPanel {
 		});
 		resubmitPane.add(btnResubmit);
 
-		btnWithdraw = new JButton("Withdraw");
+		JButton btnWithdraw = new JButton("Withdraw");
 		btnWithdraw.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		btnWithdraw.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {		
@@ -196,8 +247,7 @@ public class UserPane extends AbstractPanel {
 							myFrame.getDataManager().removeSubmission();
 							loadSubmission();
 						} catch (IOException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
+							JOptionPane.showMessageDialog(myFrame, "Unable to find the file");
 						}
 					
 					}
@@ -216,7 +266,12 @@ public class UserPane extends AbstractPanel {
 
 		JPanel westfiller = new JPanel();
 		westPane.add(westfiller, BorderLayout.WEST);
-
+	}
+	
+	/**
+	 * Setting up east panel.
+	 */
+	private void setupEast() {
 		eastPane = new JPanel();
 		eastPane.setVisible(false);
 		add(eastPane, BorderLayout.EAST);
@@ -251,33 +306,11 @@ public class UserPane extends AbstractPanel {
 		btnBack.addActionListener(new BackPanelListener(myFrame));
 		panel_1.add(btnBack);
 
-		loadSubmission();
 	}
 
-	private void setupHeader() {
-
-		JPanel northPane = new JPanel();
-		add(northPane, BorderLayout.NORTH);
-		northPane.setLayout(new BorderLayout(0, 0));
-		JPanel headerPane = new JPanel();
-		northPane.add(headerPane);
-		headerPane.setBorder(new TitledBorder(null, "Submission", TitledBorder.LEADING, 
-				TitledBorder.TOP, new Font("Arial", Font.PLAIN, 20), null));
-		headerPane.setLayout(new BorderLayout(0, 0));
-		headerPane.setPreferredSize(new Dimension(100, 200));
-
-		lblFile = new JLabel("File: ");
-		lblFile.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblFile.setHorizontalAlignment(SwingConstants.CENTER);
-		headerPane.add(lblFile, BorderLayout.WEST);
-
-		JPanel westfiller = new JPanel();
-		northPane.add(westfiller, BorderLayout.WEST);
-
-		JPanel eastfiller = new JPanel();
-		northPane.add(eastfiller, BorderLayout.EAST);
-	}
-
+	/**
+	 * Load the submission of the account.
+	 */
 	public void loadSubmission() {
 		try {
 			boolean submission = myFrame.getDataManager().containsSubmission();
@@ -358,6 +391,10 @@ public class UserPane extends AbstractPanel {
 
 	}
 
+	/**
+	 * Set up the resubmit if there is already a submission.
+	 * @param on
+	 */
 	public void setResubmit(boolean on) {
 		if (on) {
 			resubmitPane.setVisible(true);
@@ -368,6 +405,10 @@ public class UserPane extends AbstractPanel {
 		}
 	}
 
+	/**
+	 * Check if all submission information is valid.
+	 * @return
+	 */
 	public boolean checkSubmit() {
 		if (nameTxtField.getText().length() > 0) {			
 			return true;
@@ -377,6 +418,9 @@ public class UserPane extends AbstractPanel {
 		}
 	}
 
+	/**
+	 * Submit the submission with checking.
+	 */
 	public void submit() {
 		File newFile = new File("images/" + myFrame.getDataManager().getID());
 		newFile.mkdir();		//Create directory
@@ -391,12 +435,22 @@ public class UserPane extends AbstractPanel {
 			myFrame.getDataManager().addSubmission(newSubmission);
 			loadSubmission();
 
+			//Reset input
+			nameTxtField.setText("");
+			categoryBox.setSelectedIndex(0);
+			lblUploadFile.setText("");
+			btnSubmit.setEnabled(false);
+			//lblFile
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 	}
 
+	/**
+	 * Delete the file.
+	 * @param theFile
+	 */
 	public void delete(File theFile) {
 		if (theFile.isDirectory()) {
 			String[] allFile = theFile.list();

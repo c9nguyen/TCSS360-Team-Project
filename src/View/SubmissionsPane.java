@@ -1,32 +1,8 @@
 package View;
 
 import java.awt.BorderLayout;
-import Model.Category;
-
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-
-import javax.swing.BoxLayout;
-import javax.swing.ButtonGroup;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.border.TitledBorder;
-import javax.swing.filechooser.FileFilter;
-import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.table.DefaultTableModel;
-
-import Model.Category.*;
-import Model.Submission;
-
 import java.awt.FlowLayout;
-import javax.swing.JList;
-import javax.swing.JOptionPane;
-import javax.imageio.ImageIO;
-import javax.swing.AbstractListModel;
-import javax.swing.JRadioButton;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -34,19 +10,32 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.List;
 
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
+import javax.imageio.ImageIO;
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JFileChooser;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableModel;
 
+import Model.Category;
+import Model.Submission;
+
+/**
+ * Submission Panel contains the list of all submissions.
+ * @author Team tryHARD
+ *
+ */
 public class SubmissionsPane extends AbstractPanel {
 
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = -2802682035896331012L;
 	private JTable table;
 	private JTextField textAgeFrom;
@@ -71,10 +60,17 @@ public class SubmissionsPane extends AbstractPanel {
 		filterCat = null;
 		
 		setUp();
-		loadDefaultTableData();
+		try {
+			currentList = myFrame.getDataManager().getSubmissions();
+		} catch (FileNotFoundException e) {
+			JOptionPane.showMessageDialog(myFrame, "There is a problem in loading data");
+		}
 		loadListToTable();
 	}
 
+	/**
+	 * Setting up display
+	 */
 	private void setUp() {
 	setLayout(new BorderLayout(0,0));
 		
@@ -124,12 +120,10 @@ public class SubmissionsPane extends AbstractPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				try {
 					currentList = myFrame.getDataManager().getSubmissions();
 					loadListToTable();
 				} catch (FileNotFoundException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}
@@ -146,12 +140,11 @@ public class SubmissionsPane extends AbstractPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+	
 				try {
 					currentList = myFrame.getDataManager().getAgeLists();
 					loadListToTable();
 				} catch (FileNotFoundException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}
@@ -220,7 +213,6 @@ public class SubmissionsPane extends AbstractPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				try {
 					String from = textAgeFrom.getText();
 					String to = textAgeTo.getText();
@@ -267,8 +259,8 @@ public class SubmissionsPane extends AbstractPanel {
 			public void actionPerformed(ActionEvent e) {
 				if (categoryBox.getSelectedIndex() > -1) {
 				
-				int index = categoryBox.getSelectedIndex();		
-				Submission mysubmit = 	tableList.get(index);
+				int index = table.getSelectedRow();		
+				Submission mysubmit = tableList.get(index);
 
 				File myFile = new File("images/" + mysubmit.getID() + "/" + mysubmit.getImage().getName());
 				try {
@@ -288,24 +280,26 @@ public class SubmissionsPane extends AbstractPanel {
 		});
 		panel_10.add(btnView);
 
+		JPanel westPanel = new JPanel();
+		westPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+		JButton backButton = new JButton("Back");
+		backButton.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		backButton.addActionListener(new ActionListener() {
 
-	}
-
-	private void loadDefaultTableData() {
-		try {
-			currentList = myFrame.getDataManager().getSubmissions();
-	
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				myFrame.goBack();
+			}
 			
+		});
+		westPanel.add(backButton);
+		add(westPanel, BorderLayout.SOUTH);
 	}
-	
-	private void filterTable() {
-		
-	}
-	
+
+	/**
+	 * Load the current list into JTable for display
+	 */
 	private void loadListToTable() {
 		DefaultTableModel model = (DefaultTableModel) table.getModel();
 		model.setRowCount(0);

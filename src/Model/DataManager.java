@@ -21,9 +21,8 @@ import java.util.Scanner;
  */
 public class DataManager {
 
+	/* The current ID of acount that logged in */
 	private int myID;
-	
-	private String myPassword;
 	
 	
 	/**
@@ -31,7 +30,6 @@ public class DataManager {
 	 */
  	public DataManager() {
  		myID = 0;
- 		myPassword = null;
  	}
  	
 	/**
@@ -211,6 +209,7 @@ public class DataManager {
  		return contains("admins.txt", password);
  	}
  	
+ 	
  	private boolean contains(String fileName, String password) {
  		Scanner input;
  		boolean contains = false;
@@ -280,9 +279,5 @@ public class DataManager {
  		sort.sortByCategory("table");
  		return sort.tableList;
  		
- 	}
- 	 	
- 	public void resetPassword() {
- 		myPassword = null;
- 	}
+ 	}	 	
 }

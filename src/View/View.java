@@ -2,33 +2,21 @@ package View;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
-import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 
-
+/**
+ * A view dialog used to view the submission.
+ * @author tryHARD
+ *
+ */
 public class View extends JDialog {
 
 	private final JPanel contentPanel;
-
-//	/**
-//	 * Launch the application.
-//	 */
-//	public static void main(String[] args) {
-//		try {
-//			View dialog = new View();
-//			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-//			dialog.setVisible(true);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//	}
 
 	/**
 	 * Create the dialog.
@@ -42,6 +30,11 @@ public class View extends JDialog {
 		setLocationRelativeTo(null);
 	}
 
+	/**
+	 * Panel class contains the image.
+	 * @author tryHARD
+	 *
+	 */
 	public class SubmissionImage extends JPanel {
 		private BufferedImage image;
 

@@ -1,7 +1,7 @@
 package Model;
 
 public enum Category {
-	CHAIR("Chair"), LAMP("Aamp"), D("D");
+	CHAIR("Chair"), LAMP("Lamp");
 	
 	private String myName;
 	

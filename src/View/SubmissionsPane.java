@@ -1,6 +1,8 @@
 package View;
 
 import java.awt.BorderLayout;
+import Model.Category;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -12,15 +14,33 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.border.TitledBorder;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
+
+import Model.Category.*;
+import Model.Submission;
+
 import java.awt.FlowLayout;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.imageio.ImageIO;
 import javax.swing.AbstractListModel;
 import javax.swing.JRadioButton;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 
 public class SubmissionsPane extends AbstractPanel {
 
@@ -29,8 +49,16 @@ public class SubmissionsPane extends AbstractPanel {
 	 */
 	private static final long serialVersionUID = -2802682035896331012L;
 	private JTable table;
-	private JTextField textField;
-	private JTextField textField_1;
+	private JTextField textAgeFrom;
+	private JTextField textAgeTo;
+	private JComboBox<String> categoryBox;
+	private ArrayList<Submission> currentList;
+	private ArrayList<Submission> tableList;
+	private ButtonGroup group;
+	private String filterAgeFrom;
+	private String filterAgeTo;
+	private String filterCat;
+	
 	/**
 	 * Create the panel.
 	 */
@@ -38,7 +66,17 @@ public class SubmissionsPane extends AbstractPanel {
 		super(theFrame, caller);
 		super.nextPanel = null;
 		
-		setLayout(new BorderLayout(0,0));
+		filterAgeFrom = null;
+		filterAgeTo = null;
+		filterCat = null;
+		
+		setUp();
+		loadDefaultTableData();
+		loadListToTable();
+	}
+
+	private void setUp() {
+	setLayout(new BorderLayout(0,0));
 		
 		JPanel centerPanel = new JPanel();
 		add(centerPanel, BorderLayout.CENTER);
@@ -69,32 +107,65 @@ public class SubmissionsPane extends AbstractPanel {
 		eastPanel.setLayout(new GridLayout(0, 2, 0, 0));
 		
 		JLabel lblSortBy = new JLabel("Sort by:");
-		lblSortBy.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblSortBy.setFont(new Font("Tahoma", Font.BOLD, 18));
 		lblSortBy.setHorizontalAlignment(SwingConstants.CENTER);
 		eastPanel.add(lblSortBy);
 		
 		JPanel panel_1 = new JPanel();
 		eastPanel.add(panel_1);
 		
+		JPanel panel_11 = new JPanel();
+		eastPanel.add(panel_11);
+		
+		JRadioButton rdbtnDefault = new JRadioButton("Default");
+		rdbtnDefault.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		rdbtnDefault.setSelected(true);
+		rdbtnDefault.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				try {
+					currentList = myFrame.getDataManager().getSubmissions();
+					loadListToTable();
+				} catch (FileNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+			
+		});
+		eastPanel.add(rdbtnDefault);
+		
 		JPanel panel = new JPanel();
 		eastPanel.add(panel);
 		
 		JRadioButton ageRadioBtn = new JRadioButton("Age");
 		ageRadioBtn.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		ageRadioBtn.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				try {
+					currentList = myFrame.getDataManager().getAgeLists();
+					loadListToTable();
+				} catch (FileNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+			
+		});
 		eastPanel.add(ageRadioBtn);
 		
-		JPanel panel_2 = new JPanel();
-		eastPanel.add(panel_2);
-		
-		JRadioButton catRadioBtn = new JRadioButton("Categories");
-		catRadioBtn.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		eastPanel.add(catRadioBtn);
-		ButtonGroup group = new ButtonGroup();
+		group = new ButtonGroup();
+		group.add(rdbtnDefault);
 		group.add(ageRadioBtn);
-		group.add(catRadioBtn);
+
 		
 		JLabel lblFilter = new JLabel("Filter:");
-		lblFilter.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblFilter.setFont(new Font("Tahoma", Font.BOLD, 18));
 		lblFilter.setHorizontalAlignment(SwingConstants.CENTER);
 		eastPanel.add(lblFilter);
 		
@@ -104,37 +175,82 @@ public class SubmissionsPane extends AbstractPanel {
 		JPanel panel_4 = new JPanel();
 		eastPanel.add(panel_4);
 		
-		JLabel lblFrom = new JLabel("From:");
+		JLabel lblFrom = new JLabel("Age From:");
 		lblFrom.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		panel_4.add(lblFrom);
 		
-		textField = new JTextField();
-		textField.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		panel_4.add(textField);
-		textField.setColumns(5);
+		textAgeFrom = new JTextField();
+		textAgeFrom.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		panel_4.add(textAgeFrom);
+		textAgeFrom.setColumns(5);
 		
 		JPanel panel_5 = new JPanel();
 		eastPanel.add(panel_5);
 		
 		JLabel lblTo = new JLabel("To:");
+		lblTo.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		panel_5.add(lblTo);
 		
-		textField_1 = new JTextField();
-		textField_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		panel_5.add(textField_1);
-		textField_1.setColumns(5);
+		textAgeTo = new JTextField();
+		textAgeTo.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		panel_5.add(textAgeTo);
+		textAgeTo.setColumns(5);
 		
 		JPanel panel_6 = new JPanel();
 		eastPanel.add(panel_6);
 		
+		JLabel lblCat = new JLabel("Category");
+		lblTo.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		panel_6.add(lblCat);
+		
 		JPanel panel_7 = new JPanel();
 		eastPanel.add(panel_7);
+		
+		String[] category = {"", Category.CHAIR.getName(), Category.LAMP.getName()};
+		categoryBox = new JComboBox<String>(category);
+		panel_7.add(categoryBox);
+		
 		
 		JPanel panel_8 = new JPanel();
 		eastPanel.add(panel_8);
 		
-		JButton btnApply = new JButton("Apply");
+		JButton btnApply = new JButton("Apply Filter");
 		btnApply.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		btnApply.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				try {
+					String from = textAgeFrom.getText();
+					String to = textAgeTo.getText();
+					String cat = categoryBox.getSelectedItem().toString();
+					
+					//Check if a valid int value
+					if (from.length() > 0) {
+						Integer.parseInt(from);
+					} else {
+						from = null;
+					}
+					
+					if (to.length() > 0) {
+						Integer.parseInt(to);
+					} else {
+						to = null;
+					}
+					
+					filterAgeFrom = from;
+					filterAgeTo = to;
+					filterCat = cat.length() > 0 ? cat : null;
+					
+					loadListToTable();
+				} catch (Exception ex) {
+					//ex.printStackTrace();
+					JOptionPane.showMessageDialog(myFrame, "Invalid filter input");
+				}
+			}
+			
+		});
 		panel_8.add(btnApply);
 		
 		JPanel panel_9 = new JPanel();
@@ -145,30 +261,68 @@ public class SubmissionsPane extends AbstractPanel {
 		
 		JButton btnView = new JButton("View");
 		btnView.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		btnView.setEnabled(false);
+		btnView.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (categoryBox.getSelectedIndex() > -1) {
+				
+				int index = categoryBox.getSelectedIndex();		
+				Submission mysubmit = 	tableList.get(index);
+
+				File myFile = new File("images/" + mysubmit.getID() + "/" + mysubmit.getImage().getName());
+				try {
+					BufferedImage image = ImageIO.read(myFile);
+					View view = new View(image);
+					view.setVisible(true);
+				} catch (Exception ex) {
+					
+				}
+				} else {
+					JOptionPane.showMessageDialog(myFrame, "Please select a submission to view");
+				}
+	
+				
+			}
+			
+		});
 		panel_10.add(btnView);
-		eastPane();
-//		westPanel();
-		setupHeader();
-		
-	
-//		
-//		DefaultTableModel model = new DefaultTableModel(new String[] {
-//             "A lonely chair" ,  "The Desk" }, new Integer[] {  });
-		
-		DefaultTableModel m = new DefaultTableModel(10, 1);
+
 
 	}
-	public void eastPane(){
+
+	private void loadDefaultTableData() {
+		try {
+			currentList = myFrame.getDataManager().getSubmissions();
 	
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+			
 	}
-	public void westPanel(){
-		JPanel wPanel = new JPanel();
-		wPanel.setBackground(Color.YELLOW);
-		add(wPanel, BorderLayout.WEST);
+	
+	private void filterTable() {
 		
 	}
-	private void setupHeader() {
-
-}
+	
+	private void loadListToTable() {
+		DefaultTableModel model = (DefaultTableModel) table.getModel();
+		model.setRowCount(0);
+		tableList = new ArrayList<Submission>();
+		
+		for (Submission one : currentList) {
+			if (filterAgeFrom == null || Integer.parseInt(filterAgeFrom) <= one.getAge()) {
+				if (filterAgeTo == null || Integer.parseInt(filterAgeTo) >= one.getAge()) {
+					if (filterCat == null || filterCat.equals(one.getCategory())) {
+						model.addRow(new Object[] {one.getName(), one.getAge(), one.getCategory()});
+						tableList.add(one);
+					}
+				}
+			}
+		}
+		
+	}
+	
+	
 }

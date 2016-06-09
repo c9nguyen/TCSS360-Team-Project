@@ -118,8 +118,8 @@ public class DataManager {
  	 * @return List of all submissions.
  	 * @throws FileNotFoundException 
  	 */
- 	public List<Submission> getSubmissions() throws FileNotFoundException {
- 		List<Submission> list = new ArrayList<Submission>();
+ 	public ArrayList<Submission> getSubmissions() throws FileNotFoundException {
+ 		ArrayList<Submission> list = new ArrayList<Submission>();
  		Scanner sc = new Scanner(new File("submissions.txt"));
  		while (sc.hasNextLine()) {
  			String line = sc.nextLine();
@@ -238,7 +238,7 @@ public class DataManager {
  	 * @return
  	 * @throws FileNotFoundException
  	 */
- 	public List<Submission> getAgeLists() throws FileNotFoundException {
+ 	public ArrayList<Submission> getAgeLists() throws FileNotFoundException {
  		@SuppressWarnings({ "unchecked", "rawtypes" })
 		Sort sort = new Sort((ArrayList) getSubmissions());
  		sort.sortByAge();
@@ -250,7 +250,7 @@ public class DataManager {
  	 * @return Returns a sorted list of submissions by category lamp.
  	 * @throws FileNotFoundException
  	 */
- 	public List<Submission> getLampList() throws FileNotFoundException {
+ 	public ArrayList<Submission> getLampList() throws FileNotFoundException {
  		@SuppressWarnings({ "unchecked", "rawtypes" })
 		Sort sort = new Sort((ArrayList) getSubmissions());
  		sort.sortByCategory("lamp");
@@ -262,7 +262,7 @@ public class DataManager {
  	 * @return Returns a sorted list of submissions by category chair.
  	 * @throws FileNotFoundException
  	 */
- 	public List<Submission> getChairList() throws FileNotFoundException {
+ 	public ArrayList<Submission> getChairList() throws FileNotFoundException {
  		@SuppressWarnings({ "unchecked", "rawtypes" })
  		Sort sort = new Sort((ArrayList) getSubmissions());
  		sort.sortByCategory("chair");
@@ -274,7 +274,7 @@ public class DataManager {
  	 * @return Returns a sorted list of submissions by category table.
  	 * @throws FileNotFoundException
  	 */
- 	public List<Submission> getTableList() throws FileNotFoundException {
+ 	public ArrayList<Submission> getTableList() throws FileNotFoundException {
  		@SuppressWarnings({ "unchecked", "rawtypes" })
  		Sort sort = new Sort((ArrayList) getSubmissions());
  		sort.sortByCategory("table");

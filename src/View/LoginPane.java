@@ -128,6 +128,7 @@ public class LoginPane extends AbstractPanel {
 				DataManager checkingData = 	myFrame.getDataManager();			
 				checkingData.setID(id);
 				
+				// Check if user or admin
 				if (checkingData.isUser(password)) {
 					gotoUser();
 				} else if (checkingData.isAdmin(password)) {

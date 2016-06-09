@@ -15,6 +15,7 @@ import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import Controller.BackPanelListener;
+import Model.Category;
 import Model.Submission;
 
 import javax.swing.JLabel;
@@ -97,7 +98,7 @@ public class UserPane extends AbstractPanel {
 		categoryLbl.setHorizontalAlignment(SwingConstants.CENTER);
 		categoryPane.add(categoryLbl);
 
-		String[] category = {"Chair", "Table"};
+		String[] category = {Category.CHAIR.getName(), Category.LAMP.getName()};
 		categoryBox = new JComboBox<String>(category);
 		categoryPane.add(categoryBox);
 

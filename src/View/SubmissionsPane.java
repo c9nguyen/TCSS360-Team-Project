@@ -6,12 +6,21 @@ import java.awt.Dimension;
 import java.awt.Font;
 
 import javax.swing.BoxLayout;
+import javax.swing.ButtonGroup;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
+import java.awt.FlowLayout;
+import javax.swing.JList;
+import javax.swing.AbstractListModel;
+import javax.swing.JRadioButton;
+import java.awt.GridLayout;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.JButton;
 
 public class SubmissionsPane extends AbstractPanel {
 
@@ -19,6 +28,9 @@ public class SubmissionsPane extends AbstractPanel {
 	 * 
 	 */
 	private static final long serialVersionUID = -2802682035896331012L;
+	private JTable table;
+	private JTextField textField;
+	private JTextField textField_1;
 	/**
 	 * Create the panel.
 	 */
@@ -27,25 +39,117 @@ public class SubmissionsPane extends AbstractPanel {
 		super.nextPanel = null;
 		
 		setLayout(new BorderLayout(0,0));
+		
+		JPanel centerPanel = new JPanel();
+		add(centerPanel, BorderLayout.CENTER);
+		centerPanel.setLayout(new BorderLayout(0, 0));
+		
+		table = new JTable();
+		table.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		table.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"Name", "Age", "Category"
+			}
+		));
+		centerPanel.add(new JScrollPane(table));
+		
+		JPanel northPanel = new JPanel();
+		FlowLayout flowLayout = (FlowLayout) northPanel.getLayout();
+		flowLayout.setAlignment(FlowLayout.LEFT);
+		add(northPanel, BorderLayout.NORTH);
+		
+		JLabel lblTitle = new JLabel("Submissions List");
+		lblTitle.setFont(new Font("Tahoma", Font.PLAIN, 30));
+		northPanel.add(lblTitle);
+		
+		JPanel eastPanel = new JPanel();
+		add(eastPanel, BorderLayout.EAST);
+		eastPanel.setLayout(new GridLayout(0, 2, 0, 0));
+		
+		JLabel lblSortBy = new JLabel("Sort by:");
+		lblSortBy.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblSortBy.setHorizontalAlignment(SwingConstants.CENTER);
+		eastPanel.add(lblSortBy);
+		
+		JPanel panel_1 = new JPanel();
+		eastPanel.add(panel_1);
+		
+		JPanel panel = new JPanel();
+		eastPanel.add(panel);
+		
+		JRadioButton ageRadioBtn = new JRadioButton("Age");
+		ageRadioBtn.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		eastPanel.add(ageRadioBtn);
+		
+		JPanel panel_2 = new JPanel();
+		eastPanel.add(panel_2);
+		
+		JRadioButton catRadioBtn = new JRadioButton("Categories");
+		catRadioBtn.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		eastPanel.add(catRadioBtn);
+		ButtonGroup group = new ButtonGroup();
+		group.add(ageRadioBtn);
+		group.add(catRadioBtn);
+		
+		JLabel lblFilter = new JLabel("Filter:");
+		lblFilter.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblFilter.setHorizontalAlignment(SwingConstants.CENTER);
+		eastPanel.add(lblFilter);
+		
+		JPanel panel_3 = new JPanel();
+		eastPanel.add(panel_3);
+		
+		JPanel panel_4 = new JPanel();
+		eastPanel.add(panel_4);
+		
+		JLabel lblFrom = new JLabel("From:");
+		lblFrom.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		panel_4.add(lblFrom);
+		
+		textField = new JTextField();
+		textField.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		panel_4.add(textField);
+		textField.setColumns(5);
+		
+		JPanel panel_5 = new JPanel();
+		eastPanel.add(panel_5);
+		
+		JLabel lblTo = new JLabel("To:");
+		panel_5.add(lblTo);
+		
+		textField_1 = new JTextField();
+		textField_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		panel_5.add(textField_1);
+		textField_1.setColumns(5);
+		
+		JPanel panel_6 = new JPanel();
+		eastPanel.add(panel_6);
+		
+		JPanel panel_7 = new JPanel();
+		eastPanel.add(panel_7);
+		
+		JPanel panel_8 = new JPanel();
+		eastPanel.add(panel_8);
+		
+		JButton btnApply = new JButton("Apply");
+		btnApply.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		panel_8.add(btnApply);
+		
+		JPanel panel_9 = new JPanel();
+		eastPanel.add(panel_9);
+		
+		JPanel panel_10 = new JPanel();
+		eastPanel.add(panel_10);
+		
+		JButton btnView = new JButton("View");
+		btnView.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		btnView.setEnabled(false);
+		panel_10.add(btnView);
 		eastPane();
 //		westPanel();
 		setupHeader();
-		
-		JPanel westPane = new JPanel();
-		
-		add(westPane, BorderLayout.WEST);
-		westPane.setLayout(new BorderLayout(0, 0));
-		
-		JPanel entryPane = new JPanel();
-		westPane.add(entryPane);
-		entryPane.setLayout(new BoxLayout(entryPane, BoxLayout.X_AXIS));
-		
-		JPanel namePane = new JPanel();
-		entryPane.add(namePane);
-		
-		JLabel nameLbl = new JLabel("Entry Name:");
-		nameLbl.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		namePane.add(nameLbl);
 		
 	
 //		
@@ -53,37 +157,9 @@ public class SubmissionsPane extends AbstractPanel {
 //             "A lonely chair" ,  "The Desk" }, new Integer[] {  });
 		
 		DefaultTableModel m = new DefaultTableModel(10, 1);
-		
-		JTable table = new JTable(m);
-		JScrollPane tableContainer = new JScrollPane(table);
-		entryPane.add(tableContainer,BorderLayout.CENTER);
 
 	}
 	public void eastPane(){
-		JPanel ePanel = new JPanel();
-		add(ePanel,BorderLayout.EAST);
-		ePanel.setLayout(new BorderLayout(0,0));
-		
-		JPanel agePanel = new JPanel();
-		ePanel.add(agePanel, BorderLayout.WEST);
-		
-		JPanel ageStrPane = new JPanel();
-		agePanel.add(ageStrPane);
-		
-		JLabel age = new JLabel("Age");
-		age.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		ageStrPane.add(age);
-		
-		
-		JPanel categoryPane = new JPanel();
-		ePanel.add(categoryPane, BorderLayout.EAST);
-		
-		JPanel catStrPane = new JPanel();
-		categoryPane.add(catStrPane);
-		
-		JLabel cat = new JLabel("Category");
-		cat.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		catStrPane.add(cat);
 	
 	}
 	public void westPanel(){
@@ -93,16 +169,6 @@ public class SubmissionsPane extends AbstractPanel {
 		
 	}
 	private void setupHeader() {
-
-		JPanel northPane = new JPanel();
-		add(northPane, BorderLayout.NORTH);
-		northPane.setLayout(new BorderLayout(0, 0));
-		JPanel headerPane = new JPanel();
-		northPane.add(headerPane);
-		headerPane.setBorder(new TitledBorder(null, "Contest Submissions", TitledBorder.LEADING, 
-				TitledBorder.TOP, new Font("Arial", Font.PLAIN, 30), null));
-		headerPane.setLayout(new BorderLayout(0, 0));
-		headerPane.setPreferredSize(new Dimension(100, 100));
 
 }
 }

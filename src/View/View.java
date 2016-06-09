@@ -12,7 +12,6 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import View.ViewSubmission.SubmissionImage;
 
 public class View extends JDialog {
 

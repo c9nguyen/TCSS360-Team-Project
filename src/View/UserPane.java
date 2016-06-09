@@ -1,6 +1,7 @@
 package View;
 
 import javax.swing.JPanel;
+import javax.imageio.ImageIO;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JComboBox;
@@ -22,6 +23,7 @@ import javax.swing.SwingConstants;
 import javax.swing.JTextField;
 import java.awt.FlowLayout;
 import java.awt.Button;
+import java.awt.Color;
 import java.awt.Font;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -31,6 +33,9 @@ import java.nio.file.StandardCopyOption.*;
 
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
 import java.awt.event.ActionEvent;
 import java.awt.GridLayout;
 
@@ -97,7 +102,6 @@ public class UserPane extends AbstractPanel {
 		categoryPane.add(categoryBox);
 
 		JPanel uploadPane = new JPanel();
-		FlowLayout flowLayout_1 = (FlowLayout) uploadPane.getLayout();
 		editorPane.add(uploadPane);
 
 
@@ -189,11 +193,12 @@ public class UserPane extends AbstractPanel {
 						delete(oldFile);						
 						try {
 							myFrame.getDataManager().removeSubmission();
+							loadSubmission();
 						} catch (IOException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
-						loadSubmission();
+					
 					}
 
 
@@ -277,7 +282,8 @@ public class UserPane extends AbstractPanel {
 			boolean submission = myFrame.getDataManager().containsSubmission();
 			if (submission) {
 				Submission mysubmit = myFrame.getDataManager().getSubmission();
-
+				myFile = new File("images/" + myFrame.getDataManager().getID() + "/" + mysubmit.getImage().getName());
+				
 				btnSubmitPane.setVisible(false);
 				resubmitPane.setVisible(true);				
 				eastPane.setVisible(true);
@@ -285,6 +291,49 @@ public class UserPane extends AbstractPanel {
 				lblSubmissionName.setText("Name: \n" + mysubmit.getName());
 				lblSubmissionCatergory.setText("Category: \n" + mysubmit.getCategory());
 				lblFile.setText("File: " + mysubmit.getImage().getName());
+				lblFile.setToolTipText("Click to see the submission.");
+				lblFile.addMouseListener(new MouseListener() {
+
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						// TODO Auto-generated method stub
+						//System.out.println(myFile.getPath());
+						BufferedImage image;
+						try {
+							image = ImageIO.read(myFile);
+							View view = new View(image);
+							view.setVisible(true);
+						} catch (Exception ex) {
+							
+						}
+			
+					}
+
+					@Override
+					public void mousePressed(MouseEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
+
+					@Override
+					public void mouseReleased(MouseEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
+
+					@Override
+					public void mouseEntered(MouseEvent e) {
+						// TODO Auto-generated method stub
+						lblFile.setForeground(Color.BLUE);
+					}
+
+					@Override
+					public void mouseExited(MouseEvent e) {
+						// TODO Auto-generated method stub
+						lblFile.setForeground(Color.BLACK);
+					}
+					
+				});
 			} else {
 
 				btnSubmitPane.setVisible(true);
@@ -293,6 +342,11 @@ public class UserPane extends AbstractPanel {
 				lblSubmissionName.setText("");
 				lblSubmissionCatergory.setText("");
 				lblFile.setText("File: ");
+				if (lblFile.getMouseListeners().length > 0) {
+					for (MouseListener ml : lblFile.getMouseListeners()) {
+						lblFile.removeMouseListener(ml);
+					}
+				}
 			}
 
 		} catch (FileNotFoundException e) {
